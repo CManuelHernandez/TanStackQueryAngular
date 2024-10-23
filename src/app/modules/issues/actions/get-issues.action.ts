@@ -1,26 +1,27 @@
 import { sleep } from '@helpers/sleep';
-import { GitHubLabel } from '../interfaces';
+import { GitHubIssue } from '../interfaces';
 import { environment } from 'src/environments/environment.development';
 
 const BASE_URL = environment.baseUrl;
 const GITHUB_TOKEN = environment.gitHubToken;
 
-export const getLabels = async (): Promise<GitHubLabel[]> => {
+export const getIssues = async (): Promise<GitHubIssue[]> => {
   await sleep(1500);
+
   try {
-    const resp = await fetch(`${BASE_URL}/labels`, {
+    const resp = await fetch(`${BASE_URL}/issues`, {
       headers: {
         Authorization: `Bearer ${GITHUB_TOKEN}`,
       },
     });
 
-    if (!resp.ok) throw "Can't load labels";
+    if (!resp.ok) throw "Can't load issues";
 
-    const labels: GitHubLabel[] = await resp.json();
-    console.log({ labels });
+    const issues: GitHubIssue[] = await resp.json();
+    console.log({ issues });
 
-    return labels;
+    return issues;
   } catch (error) {
-    throw "Can't load labels";
+    throw "Can't load issues";
   }
 };
