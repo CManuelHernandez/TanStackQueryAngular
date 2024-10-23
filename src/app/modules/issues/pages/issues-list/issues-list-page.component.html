@@ -10,34 +10,33 @@
       <button class="btn">Closed</button>
     </div>
   </div>
+
+  <!-- Listado -->
+  <div class="mt-4 flex flex-col col-span-2">
+    <!-- Todo: Listado de issues -->
+    @for (issue of issuesQuery.data(); track issue.id) {
+
+    <issue-item [issue]="issue" />
+
+    } @empty { @if( issuesQuery.isLoading() ) {
+    <p>Cargando issues</p>
+    } @else {
+    <p>No hay issues que mostrar</p>
+    } }
+
+    <!-- Todo: Spinner -->
+
+    <!-- Todo: Si no hay issues por el filtro -->
+  </div>
+
+  <!-- Labels -->
+  <div>
+    @if( labelsQuery.isLoading() ) {
+    <p>Estamos cargando</p>
+    } @else {
+    <issues-labels-selector [labels]="labelsQuery.data() ?? []" />
+    }
+
+    <!-- Todo: Label Selector -->
+  </div>
 </section>
-
-<!-- Listado -->
-<div class="mt-4 flex flex-col col-span-2">
-  <!-- Todo: Listado de issues -->
-  @for (issue of issuesQuery.data(); track issue.id) {
-
-  <issue-item [issue]="issue" />
-
-  } @empty { @if( issuesQuery.isLoading() ) {
-  <p>Cargando issues</p>
-  } @else {
-  <p>No hay issues que mostrar</p>
-  } }
-
-  <!-- Todo: Spinner -->
-
-  <!-- Todo: Si no hay issues por el filtro -->
-</div>
-
-<!-- Labels -->
-<div>
-  <h3>Labels:</h3>
-  @if( labelsQuery.isLoading() ) {
-  <p>Estamos cargando</p>
-  } @else {
-  <issues-labels-selector [labels]="labelsQuery.data() ?? []" />
-  }
-
-  <!-- Todo: Label Selector -->
-</div>

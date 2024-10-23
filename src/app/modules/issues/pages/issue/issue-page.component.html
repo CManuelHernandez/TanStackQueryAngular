@@ -9,4 +9,11 @@
 
 <issue-comment [issue]="issueQuery.data()!" />
 
-}
+}<!-- Comments -->
+@if ( issueCommentsQuery.isLoading() ) {
+<p>Cargando comentarios</p>
+} @else { @for (comment of issueCommentsQuery.data(); track comment.id) {
+<issue-comment [issue]="comment" />
+} @empty {
+<p>No hay comentarios</p>
+} }
