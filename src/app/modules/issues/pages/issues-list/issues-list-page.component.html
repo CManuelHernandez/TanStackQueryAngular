@@ -29,7 +29,7 @@
   @if( labelsQuery.isLoading() ) {
   <p>Estamos cargando</p>
   } @else {
-  <pre>{{ labelsQuery.data() | json }}</pre>
+  <issues-labels-selector [labels]="labelsQuery.data() ?? []" />
   }
 
   <!-- Todo: Label Selector -->
