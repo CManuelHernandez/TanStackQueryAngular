@@ -4,6 +4,7 @@ import {
   provideAngularQuery,
   QueryClient,
 } from '@tanstack/angular-query-experimental';
+import { State } from '../interfaces';
 
 describe('IssuesService', () => {
   let service: IssuesService;
@@ -39,5 +40,23 @@ describe('IssuesService', () => {
     expect(typeof label.name).toBe('string');
     expect(typeof label.node_id).toBe('string');
     expect(typeof label.url).toBe('string');
+  });
+
+  it('should set selected state, OPEN, CLOSED, ALL', async () => {
+    service.showIssuesByState(State.Closed);
+    expect(service.selectedState()).toBe(State.Closed);
+
+    const { data } = await service.issuesQuery.refetch();
+
+    data?.forEach((issue) => {
+      expect(issue.state).toBe(State.Closed);
+    });
+
+    service.showIssuesByState(State.Open);
+    const { data: dataOpen } = await service.issuesQuery.refetch();
+
+    dataOpen?.forEach((issue) => {
+      expect(issue.state).toBe(State.Open);
+    });
   });
 });
