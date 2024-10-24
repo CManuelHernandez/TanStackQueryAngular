@@ -59,4 +59,26 @@ describe('IssuesService', () => {
       expect(issue.state).toBe(State.Open);
     });
   });
+
+  it('should set selectedLabels', async () => {
+    service.toggleLabel('Accessibility');
+    expect(service.selectedLabels().has('Accessibility')).toBeTrue();
+
+    service.toggleLabel('Accessibility');
+    expect(service.selectedLabels().has('Accessibility')).toBeFalse();
+  });
+
+  it('should set selectedLabels and get issues by label', async () => {
+    const label = 'Accessibility';
+
+    service.toggleLabel(label);
+    expect(service.selectedLabels().has(label)).toBeTrue();
+
+    const { data } = await service.issuesQuery.refetch();
+
+    data?.forEach((issue) => {
+      const hasLabel = issue.labels.some((l) => l.name === label);
+      expect(hasLabel).toBeTrue();
+    });
+  });
 });
